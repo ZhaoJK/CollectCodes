@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #to check exFAT system
 #Modification needed if try to look for CHECK files
+#Reference exFAT file system specification - Win32 apps _ Microsoft Docs
 
 
 # -*-coding:utf-8-*-

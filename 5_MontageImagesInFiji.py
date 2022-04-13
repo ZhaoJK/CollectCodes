@@ -9,7 +9,7 @@
 #@ String (label="FileName structure") fNmStr
 
 from ij import IJ, WindowManager, ImagePlus
-from ij.plugin import ImagesToStack
+from ij.plugin import ImagesToStack, MontageMaker
 import os, re
 
 def fileNmToArray(fileNms, fNmStr):
@@ -49,11 +49,9 @@ def createImgStack(fNms, fNmDic, currentDir):
 	return arrayofImps
 
 def saveTif(dstFile, imp, fileNm):
-
-  saveDir = os.path.join(dstDir, fileNm)
-  if not os.path.exists(saveDir):
-    os.makedirs(saveDir)
-    
+	saveDir = os.path.join(dstDir, fileNm)
+	if not os.path.exists(saveDir):
+		os.makedirs(saveDir)
 	print "Saving to", saveDir
 	IJ.saveAs(imp, "Tiff", os.path.join(saveDir, fileNm));
 
@@ -68,12 +66,13 @@ def run():
 
 	arrImps = createImgStack(filenames, fNmDic, root)
 	imp = ImagesToStack.run(arrImps)
+	imp = MontageMaker.makeMontage2(imp, rcLen[1], rcLen[0], 1, 1, imp.getNSlices(), 1, 5, False)
 	IJ.run(imp, "Make Montage...", "columns=" + str(rcLen[1]) + " rows=" + str(rcLen[0]) + " scale=1 border=5")
 
 	fileNm = "stack.tiff"
 	saveTif(dstFile, imp, fileNm)
  
-
-run()
+if __name__ == "__main__":
+	run()
 
 
